@@ -19,6 +19,7 @@ package com.alibaba.cloud.ai.example.chat.dashscope.controller;
 
 import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatOptions;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 import reactor.core.publisher.Flux;
 
 import org.springframework.ai.chat.model.ChatModel;
@@ -41,7 +42,7 @@ public class DashScopeChatModelController {
 
 	private final ChatModel dashScopeChatModel;
 
-	public DashScopeChatModelController(ChatModel chatModel) {
+	public DashScopeChatModelController(@Qualifier("dashscopeChatModel") ChatModel chatModel) {
 		this.dashScopeChatModel = chatModel;
 	}
 
@@ -71,7 +72,7 @@ public class DashScopeChatModelController {
 
 
 	/**
-	 * 使用编程方式自定义 LLMs ChatOptions 参数， {@link com.alibaba.cloud.ai.dashscope.chat.DashScopeChatOptions}
+	 * 使用编程方式自定义 LLMs ChatOptions 参数， {@link DashScopeChatOptions}
 	 * 优先级高于在 application.yml 中配置的 LLMs 参数！
 	 */
 	@GetMapping("/custom/chat")
