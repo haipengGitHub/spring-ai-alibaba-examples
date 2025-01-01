@@ -1,0 +1,35 @@
+server:
+  port: 8080
+  tomcat:
+    connection-timeout: 300s
+    keep-alive-timeout: 300s
+spring:
+  application:
+    name: ollama
+  main:
+    allow-bean-definition-overriding: true
+  elasticsearch:
+    uris: http://127.0.0.1:9200
+    username: elastic
+    password: ${ELASTICSEARCH_PASSWORD}
+  ai:
+    vectorstore:
+      elasticsearch:
+        initialize-schema: true
+        index-name: spring-ai-alibaba-index
+        similarity: cosine
+        dimensions: 1536
+    ollama:
+      base-url: http://localhost:8000
+      chat:
+        enabled: true
+        options:
+          model: qwen2.5:1.5b
+          temperature: 0.7
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0 # 默认数据库索引
+
