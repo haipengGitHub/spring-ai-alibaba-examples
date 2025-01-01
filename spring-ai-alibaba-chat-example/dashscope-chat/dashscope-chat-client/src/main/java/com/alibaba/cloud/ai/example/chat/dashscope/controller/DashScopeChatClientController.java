@@ -31,7 +31,7 @@ public class DashScopeChatClientController {
 
 	private final ChatClient dashScopeChatClient;
 
-	private final ChatModel chatModel;
+	private final ChatModel chatModel;    
 
 	public DashScopeChatClientController(@Qualifier("dashscopeChatModel") ChatModel chatModel) {
 

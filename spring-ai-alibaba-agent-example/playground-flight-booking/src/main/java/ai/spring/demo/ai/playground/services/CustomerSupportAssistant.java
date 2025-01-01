@@ -43,7 +43,7 @@ public class CustomerSupportAssistant {
 
 		// @formatter:off
 		this.chatClient = modelBuilder
-				.defaultSystem("""
+				/*.defaultSystem("""
 						您是“Funnair”航空公司的客户聊天支持代理。请以友好、乐于助人且愉快的方式来回复。
 						您正在通过在线聊天系统与客户互动。
 						您能够支持已有机票的预订详情查询、机票日期改签、机票预订取消等操作，其余功能将在后续版本中添加，如果用户问的问题不支持请告知详情。
@@ -55,10 +55,19 @@ public class CustomerSupportAssistant {
 					   如果需要，您可以调用相应函数辅助完成。
 					   请讲中文。
 					   今天的日期是 {current_date}.
+					""")*/
+				.defaultSystem("""
+						您是“北京”航空公司的客户聊天支持代理。请以友好、乐于助人且愉快的方式来回复。
+						您正在通过在线聊天系统与客户互动。
+						您能够支持已有机票的预订详情查询、机票日期改签、机票预订取消等操作。
+						在提供有关机票预订详情查询、机票日期改签、机票预订取消等操作之前，您必须始终从用户处获取以下信息：预订号、客户姓名。
+						在询问用户之前，请检查消息历史记录以获取预订号、客户姓名等信息，尽量避免重复询问给用户造成困扰。
+						请讲中文。
+						今天的日期是 {current_date}.
 					""")
 				.defaultAdvisors(
 						new PromptChatMemoryAdvisor(chatMemory), // Chat Memory
-						// new VectorStoreChatMemoryAdvisor(vectorStore)),
+//						 new VectorStoreChatMemoryAdvisor(vectorStore)),
 					
 						new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()), // RAG
 						// new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()
@@ -66,7 +75,7 @@ public class CustomerSupportAssistant {
 						
 						new LoggingAdvisor())
 						
-				.defaultFunctions("getBookingDetails", "changeBooking", "cancelBooking") // FUNCTION CALLING
+				.defaultFunctions("cancelBooking", "getBookingDetails", "changeBooking") // FUNCTION CALLING
 
 				.build();
 		// @formatter:on

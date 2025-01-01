@@ -9,6 +9,7 @@ import org.springframework.ai.reader.TextReader;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,8 +32,8 @@ public class Application  {
 	// In the real world, ingesting documents would often happen separately, on a CI
 	// server or similar.
 	@Bean
-	CommandLineRunner ingestTermOfServiceToVectorStore(EmbeddingModel embeddingModel, VectorStore vectorStore,
-			@Value("classpath:rag/terms-of-service.txt") Resource termsOfServiceDocs) {
+	CommandLineRunner ingestTermOfServiceToVectorStore(@Qualifier("dashscopeEmbeddingModel") EmbeddingModel embeddingModel, VectorStore vectorStore,
+                                                       @Value("classpath:rag/terms-of-service.txt") Resource termsOfServiceDocs) {
 
 		return args -> {
 			// Ingest the document into the vector store
@@ -45,7 +46,7 @@ public class Application  {
 	}
 
 	@Bean
-	public VectorStore vectorStore(EmbeddingModel embeddingModel) {
+	public VectorStore vectorStore(@Qualifier("dashscopeEmbeddingModel") EmbeddingModel embeddingModel) {
 		return new SimpleVectorStore(embeddingModel);
 	}
 

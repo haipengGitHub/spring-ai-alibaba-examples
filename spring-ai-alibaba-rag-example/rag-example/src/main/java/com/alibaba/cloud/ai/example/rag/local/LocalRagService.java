@@ -37,6 +37,7 @@ import org.springframework.ai.transformer.splitter.TokenTextSplitter;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ai.vectorstore.filter.FilterExpressionBuilder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -81,7 +82,7 @@ public class LocalRagService implements RagService {
 
     private final ElasticsearchVectorStoreProperties options;
 
-    public LocalRagService(ChatModel chatModel, VectorStore vectorStore, RerankModel rerankModel,
+    public LocalRagService(@Qualifier("dashscopeChatModel") ChatModel chatModel, VectorStore vectorStore, RerankModel rerankModel,
                            ElasticsearchClient elasticsearchClient, ElasticsearchVectorStoreProperties options) {
         this.chatModel = chatModel;
         this.vectorStore = vectorStore;

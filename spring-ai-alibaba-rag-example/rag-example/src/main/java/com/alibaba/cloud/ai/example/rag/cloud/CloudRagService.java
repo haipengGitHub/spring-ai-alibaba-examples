@@ -29,6 +29,7 @@ import org.springframework.ai.document.Document;
 import org.springframework.ai.document.DocumentReader;
 import org.springframework.ai.document.DocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -66,17 +67,17 @@ public class CloudRagService implements RagService {
 
 	private final DashScopeApi dashscopeApi;
 
-	public CloudRagService(ChatModel chatModel, DashScopeApi dashscopeApi) {
+	public CloudRagService(@Qualifier("dashscopeChatModel") ChatModel chatModel, DashScopeApi dashscopeApi) {
 		this.chatModel = chatModel;
 		this.dashscopeApi = dashscopeApi;
 	}
 
 	@Override
 	public void importDocuments() {
-		String path = saveToTempFile(springAiResource);
-
+//		String path = saveToTempFile(springAiResource);
+//		logger.info("saveToTempFile path:{}", path);
 		// 1. import and split documents
-		DocumentReader reader = new DashScopeDocumentCloudReader(path, dashscopeApi, null);
+		DocumentReader reader = new DashScopeDocumentCloudReader("D:\\tmp\\spring_ai_alibaba_quickstart.pdf", dashscopeApi, null);
 		List<Document> documentList = reader.get();
 		logger.info("{} documents loaded and split", documentList.size());
 

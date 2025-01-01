@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.ai.chat.model.AbstractToolCallSupport;
+import org.springframework.ai.model.function.FunctionCallbackContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,12 +18,16 @@ import org.springframework.context.annotation.Description;
 import org.springframework.core.NestedExceptionUtils;
 
 @Configuration
-public class BookingTools {
+public class BookingTools extends AbstractToolCallSupport {
 
 	private static final Logger logger = LoggerFactory.getLogger(BookingTools.class);
 
 	@Autowired
 	private FlightBookingService flightBookingService;
+
+	protected BookingTools(FunctionCallbackContext functionCallbackContext) {
+		super(functionCallbackContext);
+	}
 
 	public record BookingDetailsRequest(String bookingNumber, String name) {
 	}
@@ -62,11 +68,11 @@ public class BookingTools {
 	}
 
 	@Bean
-	@Description("取消机票预定")
+	@Description("取消机票预定操作")
 	public Function<CancelBookingRequest, String> cancelBooking() {
 		return request -> {
 			flightBookingService.cancelBooking(request.bookingNumber(), request.name());
-			return "";
+			return "您好，已经帮您退订成功~";
 		};
 	}
 
